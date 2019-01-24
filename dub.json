@@ -1,0 +1,13 @@
+{
+  "name" : "libcomcom",
+  "description" : "D wrapper over libcomcom",
+  "homepage" : "https://github.com/D-Programming-Deimos/libcomcom",
+  "license" : "LGPL-3.0",
+  "authors" : [
+    "Victor Porton"
+  ],
+  "targetType" : "sourceLibrary",
+  "libs" : [
+    "comcom"
+  ]
+}
