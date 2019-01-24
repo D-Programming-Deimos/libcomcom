@@ -27,8 +27,8 @@ import libcomcom;
 string runCommand(string file, string[] argv, string[] envp, string input, int timeout = -1) {
     const(char*) output;
     size_t output_len;
-    const char*[] childArgv = map!(s => s.toStringz)(argv).array;
-    const char*[] childEnvp = map!(s => s.toStringz)(envp).array;
+    const char*[] childArgv = map!toStringz(argv).array;
+    const char*[] childEnvp = map!toStringz(envp).array;
     immutable int res = libcomcom_run_command(input.ptr, input.length,
                                               &output, &output_len,
                                               file.toStringz, childArgv.ptr,
