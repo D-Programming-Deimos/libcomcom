@@ -6,8 +6,27 @@
   "authors" : [
     "Victor Porton"
   ],
-  "targetType" : "sourceLibrary",
+  "targetType" : "library",
   "libs" : [
     "comcom"
-  ]
+  ],
+  "sourcePaths" : [
+    "deimos"
+  ],
+  "configurations": [
+    {
+      "name": "application",
+      "targetType": "executable",
+      "sourceFiles": ["test.d"]
+    },
+    {
+      "name": "shared-library",
+      "targetType": "dynamicLibrary"
+    },
+    {
+      "name": "static-library",
+      "targetType": "staticLibrary"
+    }
+]
+
 }
