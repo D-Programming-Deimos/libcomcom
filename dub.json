@@ -13,6 +13,9 @@
   "sourcePaths" : [
     "deimos"
   ],
+  "importPaths" : [
+    "deimos"
+  ],
   "configurations": [
     {
       "name": "application",
