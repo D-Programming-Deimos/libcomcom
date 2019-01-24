@@ -20,6 +20,8 @@ module libcomcom;
 
 import core.sys.posix.signal;
 
+extern extern(C):
+
 /**
  * Initialize the library. Call it before libcomcom_run_command().
  * Note that this erases the old SIGCHLD handler (if any).
