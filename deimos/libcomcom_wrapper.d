@@ -46,11 +46,8 @@ string _runCommand(string file,
     return output[0..output_len].idup;
 }
 
-// `environ` is avail only on Unix, but libcomcom doesn't work on Windows anyway
-private extern(C) extern __gshared const char** environ;
-
-string runCommand(string file, string[] argv,string input, int timeout = -1) {
-    return _runCommand(file, argv, environ, input, timeout);
+string runCommand(string file, string[] argv, string input, int timeout = -1) {
+    return _runCommand(file, argv, null, input, timeout);
 }
 
 string runCommandWithEnvironment(string file,
