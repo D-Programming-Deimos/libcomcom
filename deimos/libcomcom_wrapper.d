@@ -31,7 +31,7 @@ void libComComInitializer()
     if (res != 0) {
         throw new ErrnoException("libcomcom_init_stratum()"); // TODO: Localization
     }
-    libcomcom_set_default_terminate();
+    libcomcom_set_default_terminate2();
     if (res != 0) {
         throw new ErrnoException("libcomcom_set_default_terminate()"); // TODO: Localization
     }
@@ -39,7 +39,7 @@ void libComComInitializer()
 
 void libComComDestructor()
 {
-    cast(void) libcomcom_reset_default_terminate();
+    cast(void) libcomcom_reset_default_terminate2();
     cast(void) libcomcom_destroy();
 }
 
