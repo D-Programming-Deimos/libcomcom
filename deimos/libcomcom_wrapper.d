@@ -24,6 +24,25 @@ import std.array : array;
 import std.exception : ErrnoException;
 import libcomcom;
 
+void libComComInitializer()
+{
+    int res;
+    res = libcomcom_init_stratum();
+    if (res != 0) {
+        throw new ErrnoException("libcomcom_init_stratum()"); // TODO: Localization
+    }
+    libcomcom_set_default_terminate();
+    if (res != 0) {
+        throw new ErrnoException("libcomcom_set_default_terminate()"); // TODO: Localization
+    }
+}
+
+void libComComDestructor()
+{
+    cast(void) libcomcom_reset_default_terminate();
+    cast(void) libcomcom_destroy();
+}
+
 string _runCommand(string file,
                    string[] argv,
                    const char** childEnvp,

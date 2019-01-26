@@ -30,6 +30,5 @@
       "name": "static-library",
       "targetType": "staticLibrary"
     }
-]
-
+  ]
 }

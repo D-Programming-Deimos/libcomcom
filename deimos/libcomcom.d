@@ -26,6 +26,8 @@ extern extern(C):
  * Initialize the library. Call it before libcomcom_run_command().
  * Note that this erases the old SIGCHLD handler (if any).
  * @return 0 on success and -1 on error (also sets `errno`).
+ *
+ * You should usually also initialize SIGTERM/SIGINT signal handlers.
  */
 int libcomcom_init();
 
@@ -36,6 +38,8 @@ int libcomcom_init();
  * The old signal handler (the one obtained from `old` variable) is also
  * called from our SIGCHLD handler.
  * @return 0 on success and -1 on error (also sets `errno`).
+ *
+ * You should usually also initialize SIGTERM/SIGINT signal handlers.
  */
 int libcomcom_init2(sigaction_t *old);
 
@@ -48,6 +52,8 @@ int libcomcom_init2(sigaction_t *old);
  * (not by sigaction()), then this function may not work (leads to undefined
  * behavior) on some non-Unix systems.
  * @return 0 on success and -1 on error (also sets `errno`).
+ *
+ * You should usually also initialize SIGTERM/SIGINT signal handlers.
  */
 int libcomcom_init_stratum();
 
@@ -59,7 +65,7 @@ int libcomcom_init_stratum();
  * @param output_len at this location is stored the length of command's stdout
  * @param file the command to run (PATH used)
  * @param argv arguments for the command to run
- * @param envp environment for the command to run (pass `environ` to duplicate our environment)
+ * @param envp environment for the command to run (pass `NULL` to duplicate our environment)
  * @param timeout timeout in milliseconds, -1 means infinite timeout
  * @return 0 on success and -1 on error (also sets `errno`).
  */
@@ -71,6 +77,7 @@ int libcomcom_run_command(const char *input, size_t input_len,
 
 /**
  * Should be run for normal termination (not in SIGTERM/SIGINT handler)
+ * of our program.
  * @return 0 on success and -1 on error (also sets `errno`).
  */
 int libcomcom_destroy();
@@ -83,17 +90,37 @@ int libcomcom_terminate();
 
 /**
  * Install SIGTERM and SIGINT handler which calls libcomcom_terminate().
- * If your program needs to handle SIGTERM or SIGINT in another way,
- * use libcomcom_terminate() instead.
  * @return 0 on success and -1 on error (also sets `errno`).
+ *
+ * You are recommended to use libcomcom_set_default_terminate2()
+ * instead.
  */
 int libcomcom_set_default_terminate();
 
 /**
  * Uninstall SIGTERM and SIGINT handler which calls libcomcom_terminate().
- * If your program needs to handle SIGTERM or SIGINT in another way,
- * use libcomcom_terminate() instead.
  * @return 0 on success and -1 on error (also sets `errno`).
+ *
+ * You are recommended to use libcomcom_reset_default_terminate2()
+ * instead.
  */
 int libcomcom_reset_default_terminate();
 
+/**
+ * Install SIGTERM and SIGINT handler which calls libcomcom_terminate().
+ * @return 0 on success and -1 on error (also sets `errno`).
+ *
+ * The installed signal handler also calls old signal handler automatically.
+ *
+ * WARNING: If before calling these handlers were set by signal()
+ * (not by sigaction()), then this function may not work (leads to undefined
+ * behavior) on some non-Unix systems.
+ */
+int libcomcom_set_default_terminate2();
+
+/**
+ * Resets to signal handlers which were before calling
+ * libcomcom_set_default_terminate2().
+ * @return 0 on success and -1 on error (also sets `errno`).
+ */
+int libcomcom_reset_default_terminate2();
