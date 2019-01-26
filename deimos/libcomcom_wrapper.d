@@ -44,7 +44,7 @@ void libComComDestructor()
 }
 
 string _runCommand(string file,
-                   string[] argv,
+                   const(char[][]) argv,
                    const char** childEnvp,
                    string input,
                    int timeout = -1)
@@ -65,13 +65,13 @@ string _runCommand(string file,
     return output[0..output_len].idup;
 }
 
-string runCommand(string file, string[] argv, string input, int timeout = -1) {
+string runCommand(string file, const(char[][]) argv, string input, int timeout = -1) {
     return _runCommand(file, argv, null, input, timeout);
 }
 
 string runCommandWithEnvironment(string file,
-                                 string[] argv,
-                                 string[] envp,
+                                 const(char[][]) argv,
+                                 const(char[][]) envp,
                                  string input,
                                  int timeout = -1)
 {
