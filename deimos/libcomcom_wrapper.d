@@ -24,15 +24,19 @@ import std.array : array;
 import std.exception : ErrnoException;
 import libcomcom;
 
-string runCommand(string file, string[] argv, string[] envp, string input, int timeout = -1) {
+string _runCommand(string file,
+                   string[] argv,
+                   const char** childEnvp,
+                   string input,
+                   int timeout = -1)
+{
     const(char*) output;
     size_t output_len;
     const char*[] childArgv = map!toStringz(argv).array ~ null;
-    const char*[] childEnvp = map!toStringz(envp).array ~ null;
     immutable int res = libcomcom_run_command(input.ptr, input.length,
                                               &output, &output_len,
                                               file.toStringz, childArgv.ptr,
-                                              childEnvp.ptr,
+                                              childEnvp,
                                               timeout);
     if (res != 0) {
         throw new ErrnoException("Run command"); // TODO: Localization
@@ -41,3 +45,21 @@ string runCommand(string file, string[] argv, string[] envp, string input, int t
     scope(exit) free(cast(void*) output);
     return output[0..output_len].idup;
 }
+
+// `environ` is avail only on Unix, but libcomcom doesn't work on Windows anyway
+private extern(C) extern __gshared const char** environ;
+
+string runCommand(string file, string[] argv,string input, int timeout = -1) {
+    return _runCommand(file, argv, environ, input, timeout);
+}
+
+string runCommandWithEnvironment(string file,
+                                 string[] argv,
+                                 string[] envp,
+                                 string input,
+                                 int timeout = -1)
+{
+    const char*[] childEnv = map!toStringz(envp).array ~ null;
+    return _runCommand(file, argv, childEnv.ptr, input, timeout);
+}
+
