@@ -70,7 +70,7 @@ string _runCommand(string file,
 }
 
 /// Run an OS command `file` with the given `input` and receive its output.
-/// This functions passes the environment variables without changes changes.
+/// This functions passes the environment variables without changes.
 string runCommand(string file, const(char[][]) argv, const char[] input, int timeout = -1) {
     return _runCommand(file, argv, null, input, timeout);
 }
