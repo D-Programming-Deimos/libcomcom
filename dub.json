@@ -1,6 +1,6 @@
 {
   "name" : "libcomcom",
-  "description" : "D wrapper over libcomcom",
+  "description" : "D wrapper over libcomcom (spawn an OS command with given input and receive its output)",
   "homepage" : "https://github.com/D-Programming-Deimos/libcomcom",
   "license" : "LGPL-3.0",
   "authors" : [
