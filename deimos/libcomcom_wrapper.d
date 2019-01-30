@@ -24,6 +24,8 @@ import std.array : array;
 import std.exception : ErrnoException;
 import libcomcom;
 
+/// Initialize libcomcom in the usual way.
+/// For advanced initialization use libcomcom_init_*() functions directly.
 void libComComInitializer()
 {
     int res;
@@ -37,6 +39,8 @@ void libComComInitializer()
     }
 }
 
+/// Deinitialize libcomcom in the usual way.
+/// For advanced deinitialization use libcomcom_*() functions directly.
 void libComComDestructor()
 {
     cast(void) libcomcom_reset_default_terminate2();
@@ -65,10 +69,14 @@ string _runCommand(string file,
     return output[0..output_len].idup;
 }
 
+/// Run an OS command `file` with the given `input` and receive its output.
+/// This functions passes the environment variables without changes changes.
 string runCommand(string file, const(char[][]) argv, const char[] input, int timeout = -1) {
     return _runCommand(file, argv, null, input, timeout);
 }
 
+/// Run an OS command `file` with the given `input` and receive its output.
+/// This functions allows to pass environment variables.
 string runCommandWithEnvironment(string file,
                                  const(char[][]) argv,
                                  const(char[][]) envp,
