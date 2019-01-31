@@ -2,7 +2,7 @@
   "name" : "libcomcom",
   "description" : "D wrapper over libcomcom (spawn an OS command with given input and receive its output)",
   "homepage" : "https://github.com/D-Programming-Deimos/libcomcom",
-  "license" : "LGPL-3.0",
+  "license" : "GPL-3.0 or later",
   "authors" : [
     "Victor Porton"
   ],
